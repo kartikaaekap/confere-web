@@ -1,0 +1,13 @@
+@import 'mixins';
+@import 'variables';
+
+* {
+  font-family: 'Nunito Sans';
+}
+@mixin dashboardParagraph {
+  @include setTypography(14px, normal, 19px, normal);
+}
+@mixin link {
+  @include setTypography(12px, normal, 16px, 0.04rem);
+  color: $blue-1;
+}
