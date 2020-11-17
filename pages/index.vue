@@ -3,7 +3,7 @@
     <b-row class="mx-0">
       <b-col cols="12" md="7" lg="7" xl="7" class="content-desktop p-0">
         <div class="align-items-center">
-          <b-img class="backgroundLogin" src="../assets/img/confere-login.png" />
+          <b-img class="backgroundLogin" src="../assets/img/Confere-coba.png" />
         </div>
       </b-col>
       <b-col cols="12" md="4" lg="4" xl="4" class="item-align-center ml-0 ml-md-3 ml-lg-4 ml-xl-5 pl-xl-4">
