@@ -79,6 +79,9 @@ export default {
   methods: {
     togglePassword (e) {
       this.isPaswordVisible = !this.isPaswordVisible
+    },
+    handleSubmit () {
+      this.$router.push('/dashboard')
     }
   }
   // props: {

@@ -45,18 +45,7 @@
           @click="togglePassword"
         />
         <span class="signup__note">Your password must be at least 8 characters that include at least 1 uppercase letter, 1 lowercase letter, and 1 number.</span>
-        <base-input
-          id="confirmPassword"
-          v-model="form.confirmPassword"
-          label="Re-type password"
-          size="large"
-          placeholder="Re-enter password"
-          required
-          :type="isConfirmPaswordVisible ? 'text' : 'password'"
-          :append="isConfirmPaswordVisible ? 'eye' : 'eye-slash'"
-          class="mt-3"
-          @click="toggleConfirmPassword"
-        />
+        <base-input-select id="role" v-model="form.role" class="mt-2" label="Role" :options="roleOptionsInvite" />
         <base-button type="submit" :disabled="areAllInputsEmpty" class="mx-auto mt-4">
           <span>Sign Up</span>
         </base-button>
@@ -76,10 +65,11 @@ export default {
         name: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        role: ''
       },
       isPaswordVisible: false,
-      isConfirmPaswordVisible: false
+      isConfirmPaswordVisible: false,
+      roleOptionsInvite: [{ value: '', text: 'Choose role' }, { value: 'STUDENT', text: 'STUDENT' }, { value: 'TEACHER', text: 'TEACHER' }]
     }
   },
   computed: {
@@ -167,9 +157,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+* {
+  font-family: 'Nunito Sans';
+}
 .signup {
   &__text {
-    font-size: 16px;
+    font-size: 14px;
   }
   &__link {
     font-size: 12px;
