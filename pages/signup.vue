@@ -7,7 +7,7 @@
     </b-col>
     <b-col cols="12" md="4" lg="4" xl="4" class="item-align-center ml-0 ml-md-3 ml-lg-4 ml-xl-5 pl-xl-4">
       <div is-link class="logo mt-5">
-        <a :href="href" class="logo__img">
+        <a class="logo__img">
           <b-img src="~/assets/img/logo-confere.png" fluid />
         </a>
       </div>
@@ -45,8 +45,8 @@
           @click="togglePassword"
         />
         <span class="signup__note">Your password must be at least 8 characters that include at least 1 uppercase letter, 1 lowercase letter, and 1 number.</span>
-        <base-input-select id="role" v-model="form.role" class="mt-2" label="Role" :options="roleOptionsInvite" />
-        <base-button type="submit" :disabled="areAllInputsEmpty" class="mx-auto mt-4">
+        <base-input-select id="role" v-model="form.roles" class="mt-2" label="Role" :options="roleOptionsInvite" />
+        <base-button type="submit" :disabled="isLoading || areAllInputsEmpty" class="mx-auto mt-4">
           <span>Sign Up</span>
         </base-button>
       </b-form>
@@ -59,25 +59,28 @@
 
 <script>
 export default {
+  props: {
+    isLink: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: () => {
     return {
       form: {
         name: '',
         email: '',
         password: '',
-        role: ''
+        roles: ''
       },
       isPaswordVisible: false,
-      isConfirmPaswordVisible: false,
+      isLoading: false,
       roleOptionsInvite: [{ value: '', text: 'Choose role' }, { value: 'STUDENT', text: 'STUDENT' }, { value: 'TEACHER', text: 'TEACHER' }]
     }
   },
   computed: {
     areAllInputsEmpty () {
       return Object.values(this.form).some(value => !value)
-    },
-    href () {
-      return this.isLink ? (this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/') : false
     }
   },
   methods: {
@@ -86,6 +89,21 @@ export default {
     },
     toggleConfirmPassword () {
       this.isConfirmPaswordVisible = !this.isConfirmPaswordVisible
+    },
+    handleSubmit () {
+      const { name, email, password, roles } = this.form
+      const { token } = this.$route.query
+      const query = {}
+      if (token) { query.token = token }
+      this.isLoading = true
+      this.$store
+        .dispatch('createUser', [{ name, email, password, roles }, query])
+        .then(({ message }) => {
+          this.isLoading = false
+          this.$toast.success(message)
+          this.$router.push('/')
+        })
+        .catch(() => (this.isLoading = false))
     }
   }
   // props: {

@@ -1,5 +1,8 @@
 
 export default {
+  env: {
+    baseUrl: process.env.BASE_URL
+  },
   /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
@@ -57,7 +60,13 @@ export default {
   styleResources: {
     scss: ['./assets/scss/_mixins.scss', './assets/scss/_typography.scss', './assets/scss/_variables.scss']
   },
-  axios: {},
+  // axios: { proxy: true },
+  // proxy: {
+  //   '/api/': {
+  //     target: 'http://localhost:8080',
+  //     pathRewrite: { '^/api': '' }
+  //   }
+  // },
   /*
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/

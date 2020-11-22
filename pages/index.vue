@@ -8,7 +8,7 @@
       </b-col>
       <b-col cols="12" md="4" lg="4" xl="4" class="item-align-center ml-0 ml-md-3 ml-lg-4 ml-xl-5 pl-xl-4">
         <div is-link class="logo mt-5">
-          <a :href="href" class="logo__img">
+          <a class="logo__img">
             <b-img src="~/assets/img/logo-confere.png" fluid />
           </a>
         </div>
