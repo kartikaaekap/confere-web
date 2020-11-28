@@ -51,7 +51,8 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
@@ -66,6 +67,27 @@ export default {
   //     target: 'http://localhost:8080',
   //     pathRewrite: { '^/api': '' }
   //   }
+  // },
+
+  /*
+  ** Auth module configuration
+  ** See https://auth.nuxtjs.org/schemes/local.html
+  */
+  // auth: {
+  //   cookie: false,
+  //   strategies: {
+  //     local: {
+  //       endpoints: {
+  //         login: { url: 'http://localhost:8080/api/signin', method: 'post', propertyName: 'data.token' }
+  //         // user: { url: '/api/current', method: 'get', propertyName: 'data' }
+  //       }
+  //     }
+  //   },
+  //   redirect: {
+  //     login: '/'
+  //   },
+  //   rewriteRedirects: false,
+  //   resetOnError: true
   // },
   /*
   ** Build configuration

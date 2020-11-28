@@ -45,7 +45,7 @@
           @click="togglePassword"
         />
         <span class="signup__note">Your password must be at least 8 characters that include at least 1 uppercase letter, 1 lowercase letter, and 1 number.</span>
-        <base-input-select id="role" v-model="form.roles" class="mt-2" label="Role" :options="roleOptionsInvite" />
+        <base-input-select id="roles" v-model="form.roles" class="mt-2" label="Role" :options="roleOptionsAssign" />
         <base-button type="submit" :disabled="isLoading || areAllInputsEmpty" class="mx-auto mt-4">
           <span>Sign Up</span>
         </base-button>
@@ -75,7 +75,7 @@ export default {
       },
       isPaswordVisible: false,
       isLoading: false,
-      roleOptionsInvite: [{ value: '', text: 'Choose role' }, { value: 'STUDENT', text: 'STUDENT' }, { value: 'TEACHER', text: 'TEACHER' }]
+      roleOptionsAssign: [{ value: '', text: 'Choose role' }, { value: 'student', text: 'student' }, { value: 'teacher', text: 'teacher' }]
     }
   },
   computed: {

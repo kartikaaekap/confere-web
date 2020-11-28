@@ -38,7 +38,7 @@
             required
             @click="togglePassword"
           />
-          <base-button type="submit" :disabled="areAllInputsEmpty" class="mx-auto mt-4">
+          <base-button type="submit" :disabled="isLoading || areAllInputsEmpty" class="mx-auto mt-4">
             <span>Sign In</span>
           </base-button>
         </b-form>
@@ -62,7 +62,8 @@ export default {
         email: '',
         password: ''
       },
-      isPaswordVisible: false
+      isPaswordVisible: false,
+      isLoading: false
     }
   },
   computed: {
@@ -80,8 +81,32 @@ export default {
     togglePassword (e) {
       this.isPaswordVisible = !this.isPaswordVisible
     },
-    handleSubmit () {
-      this.$router.push('/dashboard')
+    async handleSubmit () {
+      const { email, password } = this.form
+      this.isLoading = true
+      try {
+        const user = await this.$store.dispatch('login', { email, password })
+        this.$store.commit('setUser', user)
+        this.$axios.setToken(user.accessToken)
+        // await this.$store.dispatch('login', { email, password })
+        this.isLoading = false
+        if (user.roles === 'student') {
+          this.$router.push('/dashboard')
+        } else {
+          this.$router.push('/teacher')
+        }
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+
+      // this.$store
+      //   .dispatch('login', { email, password })
+      //   .then(() => {
+      //     this.isLoading = false
+      //     this.$router.push('/dashboard')
+      //   })
+      //   .catch(() => (this.isLoading = false))
     }
   }
   // props: {
