@@ -120,37 +120,37 @@ export default {
   // variants
   &--primary {
     &:not(.disabled) {
-      background-color: blue;
+      background-color: rgb(60, 60, 218);
       color: white;
       font-weight: bold;
-      box-shadow: 0px 0.25rem 0.5rem rgba(blue, 0.25);
+      box-shadow: 0px 0.25rem 0.5rem rgba(rgb(60, 60, 218), 0.25);
       &:hover {
         // background-color: #fa2222;
-        background-color: darken(blue, 10);
+        background-color: darken(rgb(60, 60, 218), 10);
       }
       &:active {
         // background-color: #d5132f;
-        background-color: darken(blue, 15);
+        background-color: darken(rgb(60, 60, 218), 15);
       }
     }
   }
-  // &--secondary {
-  //   &:not(.disabled) {
-  //     background-color: $light-grey-3;
-  //     color: $grey-2;
-  //     border: 1px solid $grey-4;
-  //     box-shadow: 0px 0.25rem 0.5rem rgba($black, 0.04);
-  //     &:hover {
-  //       background-color: $white;
-  //     }
-  //     &:active {
-  //       background-color: $light-grey-1;
-  //     }
-  //   }
-  //   &.disabled {
-  //     background-color: $light-grey-3;
-  //   }
-  // }
+  &--secondary {
+    &:not(.disabled) {
+      background-color: rgb(241, 241, 241);
+      color: rgb(116, 116, 116);
+      border: 1px solid rgb(182, 181, 181);
+      box-shadow: 0px 0.25rem 0.5rem rgba(black, 0.04);
+      &:hover {
+        background-color: white;
+      }
+      &:active {
+        background-color: grey;
+      }
+    }
+    &.disabled {
+      background-color: grey;
+    }
+  }
   // &--tertiary {
   //   &:not(.disabled) {
   //     background-color: $light-grey-3;

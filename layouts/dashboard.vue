@@ -40,7 +40,7 @@ export default {
 }
 .section {
   &__footer {
-    background: purple;
+    background: rgb(60, 60, 218);
     ul li {
       list-style: none;
       display: inline-block;

@@ -10,13 +10,21 @@
     <p>COBA DULU</p>
     <p>COBA DULU</p>
     <p>COBA DULU</p>
+    <base-button @click="coba">
+      Coba
+    </base-button>
   </section>
 </template>
 
 <script>
 
 export default {
-  layout: 'dashboard'
+  layout: 'dashboard',
+  methods: {
+    coba () {
+      console.log(this.$store.state.user)
+    }
+  }
 }
 </script>
 

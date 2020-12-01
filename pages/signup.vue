@@ -101,76 +101,11 @@ export default {
         .then(({ message }) => {
           this.isLoading = false
           this.$toast.success(message)
-          this.$router.push('/')
+          this.$router.push(`/?email=${email}`)
         })
         .catch(() => (this.isLoading = false))
     }
   }
-  // props: {
-  //   isLink: {
-  //     type: Boolean,
-  //     default: false
-  //   },
-  //   isSmall: {
-  //     type: Boolean,
-  //     default: false
-  //   }
-  // },
-  // auth: 'guest',
-  // validate ({ query, store }) {
-  //   return !query.token ? true : store.dispatch('validateInviteConfirm', { token: query.token, companyId: query.companyId }).then(() => true)
-  // },
-  // data: () => {
-  //   return {
-  //     form: {
-  //       name: '',
-  //       email: '',
-  //       password: '',
-  //       confirmPassword: ''
-  //     },
-  //     isLoading: false,
-  //     isPaswordVisible: false,
-  //     isConfirmPaswordVisible: false
-  //   }
-  // },
-  // computed: {
-  //   areAllInputsEmpty () {
-  //     return Object.values(this.form).some(value => !value)
-  //   },
-  //   href () {
-  //     return this.isLink ? (this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/') : false
-  //   }
-  // },
-  // mounted () {
-  //   this.form.email = this.$route.query.email
-  // },
-  // methods: {
-  //   togglePassword () {
-  //     this.isPaswordVisible = !this.isPaswordVisible
-  //   },
-  //   toggleConfirmPassword () {
-  //     this.isConfirmPaswordVisible = !this.isConfirmPaswordVisible
-  //   },
-  //   handleSubmit () {
-  //     const { name, email, password, confirmPassword } = this.form
-  //     const { token } = this.$route.query
-  //     const query = {}
-  //     if (password !== confirmPassword) {
-  //       this.$toast.error('Both passwords must match')
-  //       return false
-  //     }
-  //     if (token) { query.token = token }
-  //     this.isLoading = true
-  //     this.$store
-  //       .dispatch('createUser', [{ name, email, password }, query])
-  //       .then(({ message }) => {
-  //         this.isLoading = false
-  //         this.$toast.success(message)
-  //         this.$router.push(`/signin?email=${email}`)
-  //       })
-  //       .catch(() => (this.isLoading = false))
-  //   }
-  // }
 }
 </script>
 

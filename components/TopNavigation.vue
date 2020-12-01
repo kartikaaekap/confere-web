@@ -2,67 +2,71 @@
   <b-container fluid class="px-0">
     <b-navbar fixed="top" class="navbar" :class="{ 'navbar--shadow': scrollPosition }">
       <b-container class="px-0 px-sm-3">
-        <b-row>
-          <b-col cols="4" class="d-block d-md-none">
-            <base-button variant="secondary" size="small" icon="list" icon-only @click="toggleSidebar" />
-          </b-col>
-          <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
-            <a :href="href" class="mx-auto mx-md-0">
-              <b-img src="~/assets/img/logo-confere.png" fluid />
-            </a>
-          </b-col>
-          <b-col cols="4" md="10" class="d-flex justify-content-end ml-auto">
-            <b-navbar-nav>
-              <dropdown-menu v-model="isDropdownOpen" right hover>
-                <base-button
-                  id="user"
-                  variant="secondary"
-                  icon="person"
-                  size="small"
-                  class="ml-3"
-                  icon-only
-                  is-circle
-                />
-                <div slot="dropdown">
-                  <template v-if="!isAdmin">
-                    <p class="profil__name pl-2 py-2 mb-0">
-                      Kartika Eka Putri
-                    </p>
-                    <p class="profil__description pl-2 pb-2 mt-0">
-                      kartikaaekap@gmail.com
-                    </p>
-                    <b-link class="dropdown__item p-2" to="/dashboard">
-                      Home
-                    </b-link>
-                    <b-link class="dropdown__item p-2" to="/dashboard/profiles">
-                      List Class
-                    </b-link>
-                  </template>
-                  <b-link class="dropdown__item p-2" to="/signout">
-                    Sign out
-                  </b-link>
-                </div>
-              </dropdown-menu>
-              <!-- <base-button id="notification" variant="text" icon="bell" size="small" class="ml-3" icon-only /> -->
-            </b-navbar-nav>
-          </b-col>
-        </b-row>
+        <b-col cols="4" class="d-block d-md-none">
+          <base-button variant="secondary" size="small" icon="list" icon-only @click="toggleSidebar" />
+        </b-col>
+        <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
+          <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
+            <b-img src="~/assets/img/logo-confere.png" fluid />
+          </b-navbar-brand>
+        </b-col>
+
+        <b-navbar-toggle target="nav-collapse" />
+
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+            <template>
+              <base-button v-if="this.$store.state.user.roles === 'student'" variant="text" is-long class="d-none d-md-flex mr-3" to="/dashboard/home">
+                Home
+              </base-button>
+              <base-button v-else variant="text" is-long class="d-none d-md-flex mr-3" to="/teacher/home">
+                Home
+              </base-button>
+              <base-button v-if="this.$store.state.user.roles === 'student'" variant="text" is-long class="d-none d-md-flex mr-3" to="/dashboard/classlist">
+                List Class
+              </base-button>
+            </template>
+            <dropdown-menu v-model="isDropdownOpen" right hover>
+              <base-button
+                id="user"
+                variant="secondary"
+                icon="person"
+                size="small"
+                class="ml-3"
+                icon-only
+                is-circle
+              />
+              <div slot="dropdown">
+                <template>
+                  <p class="profil__name pl-2 py-2 mb-0">
+                    {{ this.$store.state.user.name }}
+                  </p>
+                  <p class="profil__description pl-2 pb-2 mt-0">
+                    {{ this.$store.state.user.email }}
+                  </p>
+                </template>
+                <b-link class="dropdown__item p-2" to="/signout">
+                  Sign out
+                </b-link>
+              </div>
+            </dropdown-menu>
+          </b-navbar-nav>
+        </b-collapse>
       </b-container>
     </b-navbar>
-
-    <aside v-if="$route.path === '/' || !isAdmin" class="sidebar" :class="{ 'sidebar--open': isSidebarOpen }">
+    <aside v-if="$route.path === '/'" class="sidebar" :class="{ 'sidebar--open': isSidebarOpen }">
       <b-container class="px-0">
         <b-navbar class="sidebar__header px-0">
           <b-col cols="4" class="d-block d-md-none">
             <base-button variant="secondary" size="small" icon="x" icon-only @click="toggleSidebar" />
           </b-col>
           <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
-            <a :href="href" class="mx-auto mx-md-0">
+            <a class="mx-auto mx-md-0">
               <b-img src="~/assets/img/logo-confere.png" fluid />
             </a>
           </b-col>
           <b-col cols="4" class="text-right">
-            <dropdown-menu v-if="user" v-model="isDropdownOpen" right hover>
+            <dropdown-menu v-model="isDropdownOpen" right hover>
               <base-button
                 id="user"
                 variant="secondary"
@@ -80,12 +84,6 @@
                   <p class="profil__description pl-2 pb-2 mt-0">
                     kartikaaekap@gmail.com
                   </p>
-                  <b-link class="dropdown__item p-2" to="/dashboard">
-                    Home
-                  </b-link>
-                  <b-link class="dropdown__item p-2" to="/dashboard/profiles">
-                    Class List
-                  </b-link>
                 </template>
                 <b-link class="dropdown__item p-2" to="/signout">
                   Sign Out
@@ -94,6 +92,28 @@
             </dropdown-menu>
           </b-col>
         </b-navbar>
+        <div class="sidebar__menu px-3">
+          <b-nav vertical>
+            <div class="sidebar__menu--top">
+              <template
+                v-if="$route.path === '/' || $route.path === '/pricing' || $route.path === '/features' || $route.path.includes('/help')
+                  || $route.path === '/aboutUs' || $route.path === '/terms'"
+              >
+                <base-button variant="text" is-full to="/pricing">
+                  Home
+                </base-button>
+                <base-button variant="text" is-full to="/help">
+                  Class
+                </base-button>
+              </template>
+              <div v-else class="sidebar__menu--bottom">
+                <base-button variant="secondary" to="/signout" is-full>
+                  Sign Out
+                </base-button>
+              </div>
+            </div>
+          </b-nav>
+        </div>
       </b-container>
     </aside>
   </b-container>
@@ -106,6 +126,11 @@ import DropdownMenu from '@innologica/vue-dropdown-menu'
 export default {
   name: 'TopNavigation',
   components: { DropdownMenu },
+  // async asyncData () {
+  //   return {
+  //     userAuth: await window.localStorage.getItem('user')
+  //   }
+  // },
   data: () => {
     return {
       scrollPosition: null,
@@ -113,8 +138,22 @@ export default {
       openModal: ''
     }
   },
+  // computed: {
+  //   isStudent () {
+  //     return this.state.user.roles === 'student'
+  //   }
+  // },
+  mounted () {
+    window.addEventListener('scroll', this.updateScroll)
+  },
+  destroy () {
+    window.removeEventListener('scroll', this.updateScroll)
+  },
   methods: {
-    ...mapMutations(['toggleSidebar'])
+    ...mapMutations(['toggleSidebar']),
+    updateScroll () {
+      this.scrollPosition = window.scrollY
+    }
   }
   // computed: {
   //   ...mapState(['isSidebarOpen']),
@@ -162,7 +201,7 @@ export default {
     }
   }
   &--shadow {
-    box-shadow: gray;
+    box-shadow: 0px 5px 10px rgba(black, 0.12);
     transition: box-shadow 0.2s ease-in-out;
   }
 }

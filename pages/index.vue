@@ -97,77 +97,9 @@ export default {
         }
       } catch (error) {
         this.isLoading = false
-        console.log(error)
       }
-
-      // this.$store
-      //   .dispatch('login', { email, password })
-      //   .then(() => {
-      //     this.isLoading = false
-      //     this.$router.push('/dashboard')
-      //   })
-      //   .catch(() => (this.isLoading = false))
     }
   }
-  // props: {
-  //   isLink: {
-  //     type: Boolean,
-  //     default: false
-  //   },
-  //   isSmall: {
-  //     type: Boolean,
-  //     default: false
-  //   }
-  // },
-  // validate ({ query, store }) {
-  //   return !query.token ? true : store.dispatch('validateInviteConfirm', { token: query.token, companyId: query.companyId }).then(() => true)
-  // },
-  // data: () => {
-  //   return {
-  //     form: {
-  //       email: '',
-  //       password: ''
-  //     },
-  //     isLoading: false,
-  //     isPaswordVisible: false
-  //   }
-  // },
-  // computed: {
-  //   type () {
-  //     return this.isPaswordVisible ? 'text' : 'password'
-  //   },
-  //   icon () {
-  //     return this.isPaswordVisible ? 'eye' : 'eye-slash'
-  //   },
-  //   areAllInputsEmpty () {
-  //     return Object.values(this.form).some(value => !value)
-  //   },
-  //   user () {
-  //     return this.$store.state.auth.user
-  //   },
-  //   href () {
-  //     return this.isLink ? (this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/') : false
-  //   }
-  // },
-  // mounted () {
-  //   this.form.email = this.$route.query.email
-  // },
-  // methods: {
-  //   togglePassword (e) {
-  //     this.isPaswordVisible = !this.isPaswordVisible
-  //   },
-  //   handleSubmit () {
-  //     const { email, password } = this.form
-  //     this.isLoading = true
-  //     this.$store
-  //       .dispatch('login', { email, password })
-  //       .then(() => {
-  //         this.isLoading = false
-  //         this.user.isAdmin ? this.$router.push('/admin') : this.$router.push('/dashboard')
-  //       })
-  //       .catch(() => (this.isLoading = false))
-  //   }
-  // }
 }
 </script>
 

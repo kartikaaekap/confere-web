@@ -38,8 +38,7 @@ export const actions = {
         .then(({ data: response }) => resolve(response.data || response))
         .catch(({ response: { status: statusCode, data: { message } } }) => {
           this.$toast.error(message)
-          // eslint-disable-next-line prefer-promise-reject-errors
-          reject({ statusCode, message })
+          reject(new Error({ statusCode, message }))
         })
     })
   },
@@ -50,7 +49,7 @@ export const actions = {
     return dispatch('useAPI', { method: 'post', url: `${process.env.baseUrl}/api/${url}`, data })
   },
   updateItem ({ dispatch }, [url, data]) {
-    return dispatch('useAPI', { method: 'put', url: `${process.env.baseUrl}/api/${url}`, data })
+    return dispatch('useAPI', { method: 'patch', url: `${process.env.baseUrl}/api/${url}`, data })
   },
   deleteItem ({ dispatch }, payload) {
     return dispatch('useAPI', { method: 'delete', url: `${process.env.baseUrl}/api/${payload}` })
@@ -59,21 +58,26 @@ export const actions = {
   // auth-related actions
   login (context, payload) {
     return this.dispatch('createItem', ['signin', payload])
-    // return new Promise((resolve, reject) => {
-    //   this.$auth
-    //     .loginWith('local', { data: payload })
-    //     .then(() => {
-    //       this.$toast.success('Welcome back!')
-    //       resolve()
-    //     })
-    //     .catch(({ response: { data: { message } } }) => {
-    //       this.$toast.error(message)
-    //       reject(message)
-    //     })
-    // })
   },
   createUser ({ dispatch }, [body, query]) {
     const qs = new URLSearchParams(query).toString()
     return dispatch('createItem', [`signup?${qs}`, body])
+  },
+
+  // teacher-dashboard
+  getClassTeacherById ({ dispatch }, userId) {
+    return dispatch('getItems', [`user/class/${userId}`])
+  },
+  createClass ({ dispatch }, payload) {
+    return dispatch('createItem', ['teacher', payload])
+  },
+  getClassTeacherDetail ({ dispatch }, classId) {
+    return dispatch('getItems', [`class/${classId}`])
+  },
+  deleteClassTeacher ({ dispatch }, payload) {
+    return dispatch('deleteItem', `teacher/${payload}`)
+  },
+  updateClassTeacher ({ dispatch }, [id, data]) {
+    return dispatch('updateItem', [`teacher/${id}`, data])
   }
 }
