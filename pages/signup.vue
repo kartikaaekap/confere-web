@@ -100,7 +100,6 @@ export default {
         .dispatch('createUser', [{ name, email, password, roles }, query])
         .then(({ message }) => {
           this.isLoading = false
-          this.$toast.success(message)
           this.$router.push(`/?email=${email}`)
         })
         .catch(() => (this.isLoading = false))

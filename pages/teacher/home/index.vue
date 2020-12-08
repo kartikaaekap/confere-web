@@ -1,6 +1,38 @@
 <template>
   <div>
-    <section id="title" class="section__top">
+    <section id="welcome" class="section__top">
+      <b-container>
+        <b-container>
+          <b-row class="pt-3">
+            <b-col
+              cols="12"
+              md="8"
+              lg="8"
+              xl="8"
+              class="d-flex flex-column justify-content-center"
+            >
+              <div class="section__title">
+                Welcome to Confere
+              </div>
+              <div class="section__subtitle">
+                You can create a new class and share the enrollment key with your students. In this class, you can add the link for the meeting that will automatically be shared to your students accounts
+              </div>
+            </b-col>
+            <b-col
+              cols="12"
+              md="4"
+              lg="4"
+              xl="4"
+            >
+              <div class="align-items-center ml-0 ml-md-5 pt-4 pt-md-0">
+                <b-img class="imgResize" src="~/assets/img/scene-dashboard-fix.png" />
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
+      </b-container>
+    </section>
+    <section id="title" class="mt-5">
       <b-container>
         <b-row>
           <b-col cols="5">
@@ -12,7 +44,7 @@
               v-model="filter"
               type="search"
               size="large"
-              placeholder="Filter companies"
+              placeholder="Search Class by Name"
               append="search"
             />
           </b-col>
@@ -111,6 +143,11 @@
         >
           <p>Are you sure to delete class: <strong>{{ form.name }}</strong> ? </p>
         </base-modal>
+        <div class="text-right pt-4">
+          <base-button @click="handleNewClass">
+            Add Class
+          </base-button>
+        </div>
       </b-container>
     </section>
   </div>
@@ -174,7 +211,6 @@ export default {
       Object.keys(this.form).forEach(key => (this.form[key] = ''))
     },
     handleNewClass () {
-      console.log(this.classTeacherById)
       this.$router.push('/teacher/newClass')
     },
     handleClassDetail (_id) {
@@ -225,6 +261,11 @@ h1 {
   h1 {
     font-size: 20px;
   }
+  .section {
+    &__title {
+      font-size: 30px;
+    }
+  }
 }
 .section {
   &__text {
@@ -237,6 +278,16 @@ h1 {
   &__top {
     padding-top: 100px;
     padding-bottom: 20px;
+    background: rgb(240, 215, 183);
+  }
+  &__title {
+    font-size: 60px;
+    color: rgb(102, 101, 101);
+    font-weight: bold;
+  }
+    &__subtitle {
+    font-size: 20px;
+    color: rgb(102, 101, 101);
   }
 }
 </style>

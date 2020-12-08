@@ -66,18 +66,29 @@ export const actions = {
 
   // teacher-dashboard
   getClassTeacherById ({ dispatch }, userId) {
-    return dispatch('getItems', [`user/class/${userId}`])
+    return dispatch('getItems', [`teacher/${userId}`])
   },
   createClass ({ dispatch }, payload) {
     return dispatch('createItem', ['teacher', payload])
   },
   getClassTeacherDetail ({ dispatch }, classId) {
-    return dispatch('getItems', [`class/${classId}`])
+    return dispatch('getItems', [`teacher/class/${classId}`])
   },
   deleteClassTeacher ({ dispatch }, payload) {
     return dispatch('deleteItem', `teacher/${payload}`)
   },
-  updateClassTeacher ({ dispatch }, [id, data]) {
-    return dispatch('updateItem', [`teacher/${id}`, data])
+  updateClassTeacher ({ dispatch }, [classId, data]) {
+    return dispatch('updateItem', [`teacher/${classId}`, data])
+  },
+
+  // student-dashboard
+  getAllClass ({ dispatch }) {
+    return dispatch('getItems', 'student')
+  },
+  joinClass ({ dispatch }, [userId, data]) {
+    return dispatch('updateItem', [`student/${userId}`, data])
+  },
+  checkClass ({ dispatch }, payload) {
+    return dispatch('createItem', ['student', payload])
   }
 }

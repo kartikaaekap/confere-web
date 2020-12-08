@@ -1,28 +1,164 @@
 <template>
-  <section>
-    <p>COBA DULU</p>
-    <p>COBA DULU</p>
-    <p>COBA DULU</p>
-    <p>COBA DULU</p>
-    <p>COBA DULU</p>
-    <p>COBA DULU</p>
-    <p>COBA DULU</p>
-    <p>COBA DULU</p>
-    <p>COBA DULU</p>
-    <p>COBA DULU</p>
-    <base-button @click="coba">
-      Coba
-    </base-button>
-  </section>
+  <div>
+    <section id="welcome" class="section__top">
+      <b-container>
+        <b-container>
+          <b-row class="pt-3">
+            <b-col
+              cols="12"
+              md="8"
+              lg="8"
+              xl="8"
+              class="d-flex flex-column justify-content-center"
+            >
+              <div class="section__title">
+                Welcome to Confere
+              </div>
+              <div class="section__subtitle">
+                You can search for all the classes and then enter the enrollment key form your teacher to join those class
+              </div>
+            </b-col>
+            <b-col
+              cols="12"
+              md="4"
+              lg="4"
+              xl="4"
+            >
+              <div class="align-items-center ml-0 ml-md-5 pt-4 pt-md-0">
+                <b-img class="imgResize" src="~/assets/img/scene-dashboard-fix.png" />
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
+      </b-container>
+    </section>
+    <section id="filter" class="mt-5">
+      <b-container>
+        <b-row>
+          <b-col cols="5" />
+          <b-col cols="7">
+            <base-input
+              id="filter"
+              v-model="filter"
+              type="search"
+              size="large"
+              placeholder="Search Class by Name"
+              append="search"
+            />
+          </b-col>
+        </b-row>
+      </b-container>
+    </section>
+    <section>
+      <b-container>
+        <b-row>
+          <b-col
+            v-for="item in studentClass"
+            :key="item._id"
+            :items="filteredClass"
+            :busy="isLoading"
+            cols="12"
+            md="4"
+            class="mt-3 mt-sm-4"
+          >
+            <b-card class="section__list overflow-hidden" @click="showPopUp(row)">
+              <b-row no-gutters>
+                <b-col md="6" class="d-flex flex-column justify-content-center">
+                  <b-card-img src="https://picsum.photos/400/400/?image=20" alt="Image" class="rounded-0" />
+                </b-col>
+                <b-col md="6">
+                  <b-card-body>
+                    <div class="section__titleCard">
+                      {{ item.name }}
+                    </div>
+                    <b-card-text class="section__subtitleCard pt-4">
+                      Dosen :
+                    </b-card-text>
+                  </b-card-body>
+                </b-col>
+              </b-row>
+              <div class="text-right">
+                <base-button @click="coba">
+                  Join Class
+                </base-button>
+              </div>
+            </b-card>
+          </b-col>
+        </b-row>
+        <base-modal v-if="isPopUp" v-model="isPopUp" title="Enrollment Key" ok-label="Join Class" @ok="handleJoinClass">
+          <b-form @submit.prevent="handleJoinClass">
+            <base-input
+              id="key"
+              v-model="form.key"
+              type="text"
+              size="large"
+              placeholder="Input Enrollemnt Key from Your teacher"
+              required
+            />
+          </b-form>
+        </base-modal>
+      </b-container>
+    </section>
+  </div>
 </template>
 
 <script>
 
 export default {
   layout: 'dashboard',
+  async asyncData ({ store }) {
+    return {
+      studentClass: await store.dispatch('getAllClass')
+    }
+  },
+  data: () => {
+    return {
+      filter: '',
+      isLoading: false,
+      isPopUp: false,
+      form: {
+        key: ''
+      }
+    }
+  },
+  computed: {
+    // eslint-disable-next-line vue/return-in-computed-property
+    filteredClass () {
+      let item
+      for (item = 0; item < this.studentClass.size; item++) {
+        return this.item.filter(({ name }) => {
+          return name
+            .toLowerCase()
+            .split(' ')
+            .join()
+            .includes(this.filter.trim().toLowerCase())
+        })
+      }
+    },
+    noResultMessage () {
+      const filter = this.filter.trim().toLowerCase()
+      return filter ? `No class with "${filter}"` : 'No class to show'
+    }
+  },
   methods: {
     coba () {
       console.log(this.$store.state.user)
+      console.log(this.studentClass[10].teacherId.name)
+    },
+    handleJoinClass () {
+      const { key } = this.form
+      const userId = this.$store.state.user.id
+      this.isLoading = true
+      this.$store
+        .dispatch('joinClass', [userId, { key }])
+        .then(() => this.handleClassDetail.then(() => (this.isLoading = false)))
+        .catch(() => (this.isLoading = false))
+    },
+    showPopUp () {
+      this.isPopUp = true
+    },
+    handleClassDetail (_id) {
+      this.$router.push(`/dashboard/home/${_id}`)
     }
   }
 }
@@ -39,6 +175,37 @@ export default {
   &__link {
     font-size: 12px;
     color: rgb(0, 162, 255);
+  }
+  &__top {
+    padding-top: 100px;
+    padding-bottom: 20px;
+    background: rgb(240, 215, 183);
+  }
+  &__list {
+    background: rgba(81, 123, 160, 0.030);
+    cursor: pointer;
+    :hover{
+      background: white;
+    }
+    border-radius: 20px;
+  }
+  &__title {
+    font-size: 60px;
+    color: rgb(102, 101, 101);
+    font-weight: bold;
+  }
+  &__subtitle {
+    font-size: 20px;
+    color: rgb(102, 101, 101);
+  }
+  &__titleCard {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(102, 101, 101);
+  }
+  &__subtitleCard {
+    font-size: 14px;
+    color: rgb(102, 101, 101);
   }
 }
 .logo {
@@ -62,6 +229,11 @@ export default {
 @media screen and (max-width: 600px) {
   .content-desktop {
     display: none;
+  }
+  .section {
+    &__title {
+      font-size: 30px;
+    }
   }
 }
 </style>

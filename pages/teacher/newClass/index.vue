@@ -106,24 +106,6 @@ export default {
         this.isLoading = false
       }
     }
-    // handleCreateClass () {
-    //   this.isLoading = true
-    //   // this.$router.push('/teacher/detailClass')
-    //   this.$store
-    //     .dispatch('createClass', {
-    //       teacherId: this.$store.state.user.id,
-    //       name: this.form.name,
-    //       key: this.form.key,
-    //       schedule: this.form.schedule,
-    //       zoomLink: this.form.zoomLink,
-    //       youtubeLink: this.form.youtubeLink
-    //     })
-    //     .then(() => {
-    //       this.isLoading = false
-    //       this.$toast.success('Class successfully created')
-    //       this.$router.push('/teacher/home')
-    //     })
-    // }
   }
 }
 </script>
