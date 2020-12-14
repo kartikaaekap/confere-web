@@ -96,5 +96,8 @@ export const actions = {
   },
   getClassStudentById ({ dispatch }, userId) {
     return dispatch('getItems', [`student/${userId}`])
+  },
+  deleteStudentFromClass ({ dispatch }, payload) {
+    return dispatch('deleteItem', ['teacher/class/member', payload])
   }
 }

@@ -278,7 +278,7 @@ h1 {
   &__top {
     padding-top: 100px;
     padding-bottom: 20px;
-    background: rgb(240, 215, 183);
+    background: rgb(231, 222, 255);
   }
   &__title {
     font-size: 60px;

@@ -25,7 +25,6 @@
                 <p class="section__text">
                   Youtube Link: <a class="section__link">{{ classDetail.youtubeLink }}</a>
                 </p>
-                <div>{{ classDetail.studentsId[0].name }}</div>
               </b-card>
             </b-col>
             <b-col
@@ -42,46 +41,48 @@
         </b-container>
       </b-container>
     </section>
-    <section id="table" class="mt-5">
+    <section id="tableMember" class="mt-5">
       <b-container>
-        <h2>Members ({{ classDetail.studentsId.length }})</h2>
-        <!-- <table>
-          <thead>
-            <tr>
-              <th>Nama</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody v-for="item in classDetail.studentsId" :key="item._id">
-            <tr>
-              <td>{{ item.name }}</td>
-              <td>{{ item.email }}</td>
-            </tr>
-          </tbody>
-        </table> -->
-        <b-table
-          responsive
-          striped
-          hover
-          show-empty
-          :items="items"
-          :fields="fields"
-          :busy="isLoading"
-        />
-        <!-- <template v-slot:cell(name)="{ item: { studentsId } }">
-          <span>{{ studentsId.name }}</span>
-        </template>
-        <template v-slot:cell(email)="{ item: { studentsId } }">
-          <span>{{ studentsId.email }}</span>
-        </template>
-        <template v-slot:cell(action)>
-          <b-link class="ml-2">
-            Delete
-          </b-link>
-        </template> -->
-        <base-button @click="handleCreateClass">
-          Coba
-        </base-button>
+        <h3>Members ({{ classDetail.studentsId.length }})</h3>
+        <div class="mt-3" style="overflow-x:auto;">
+          <table id="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody v-if="classDetail.studentsId.length === 0" class="text-center">
+              <tr>
+                <td colspan="3">
+                  There are no record to show
+                </td>
+              </tr>
+            </tbody>
+            <tbody v-for="item in classDetail.studentsId" v-else :key="item._id">
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.email }}</td>
+                <td>
+                  <b-link class="ml-2" @click="showModalDelete">
+                    Delete
+                  </b-link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <base-modal
+          v-if="isModalDelete"
+          v-model="isModalDelete"
+          title="Delete Student"
+          is-danger
+          ok-label="Delete"
+          @ok="handleDeleteClass"
+        >
+          <p>Are you sure to delete <strong>{{ form.name }}</strong> from this class ? </p>
+        </base-modal>
       </b-container>
     </section>
   </div>
@@ -99,14 +100,16 @@ export default {
   data: () => {
     return {
       isLoading: false,
+      isModalDelete: false,
       fields: [
         { key: 'name', label: 'Name' },
         { key: 'email', label: 'Email' },
         { key: 'action', label: 'Action' }
-      ],
-      items: [
-        { name: 'kuku', email: 'jjj', action: 'Macdonald' }
       ]
+      // form: {
+      //   _id: '',
+      //   name: ''
+      // }
     }
   },
   computed: {
@@ -117,13 +120,22 @@ export default {
   methods: {
     handleCreateClass () {
       console.log(this.classDetail)
+    },
+    handleDeleteClass () {
+      const userId = this.$store.state.user.id
+      const classId = this.form._id
+      this.$store
+        .dispatch('deleteStudentFromClass', [{ userId, classId }])
+        .then(() => this.handleRefreshList().then(() => (this.isLoading = false)))
+        .catch(() => (this.isLoading = false))
+    },
+    showModalDelete ({ item: { _id, name } }) {
+      this.isModalDelete = true
+      this.form = { ...this.form, _id, name }
+    },
+    async handleRefreshList (params) {
+      this.classDetail = await this.$store.dispatch('getClassTeacherDetail', params.homeId)
     }
-    // cobain () {
-    //   let i
-    //   for (i = 0; i < this.classDetail.studentsId.length; i++) {
-    //     classDetail.studentsId
-    //   }
-    // }
   }
 }
 </script>
@@ -133,7 +145,7 @@ export default {
   font-family: 'Nunito Sans';
 }
 h1 {
-  font-size: 36px;
+  font-size: 50px;
   font-weight: bold;
   margin-bottom: 30px;
   text-align: center;
@@ -161,9 +173,42 @@ h1 {
     padding-bottom: 20px;
   }
 }
+#table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#table td, #table th {
+  border: 1px solid rgb(182, 179, 179);
+  padding: 8px;
+}
+
+#table tr:nth-child(even){background-color: #f2f2f2;}
+
+#tabe tr:hover {background-color: #ddd;}
+
+#table td {
+  font-size: 18px;
+}
+
+#table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: rgb(78, 78, 141);
+  color: white;
+  font-size: 18px;
+}
 @media screen and (max-width: 600px) {
   .imgResize {
     width: 90%;
+  }
+  h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: rgb(114, 114, 114);
   }
 }
 </style>

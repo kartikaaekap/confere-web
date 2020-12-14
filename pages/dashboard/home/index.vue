@@ -146,10 +146,6 @@ export default {
     }
   },
   methods: {
-    // coba () {
-    //   console.log(this.$store.state.user)
-    //   console.log(this.studentClass[10].teacherId.name)
-    // },
     handleJoinClass (_id) {
       const { key } = this.form
       const userId = this.$store.state.user.id
@@ -201,7 +197,7 @@ export default {
   &__top {
     padding-top: 100px;
     padding-bottom: 20px;
-    background: rgb(240, 215, 183);
+    background: rgb(231, 222, 255);
   }
   &__list {
     background: rgba(81, 123, 160, 0.030);
