@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section id="title" class="section__top">
+    <section id="title" class="section__top mb-2 mb-md-5">
       <b-container>
         <b-container>
           <h1>Detail Class</h1>
@@ -50,7 +50,7 @@ export default {
   layout: 'dashboard',
   async asyncData ({ store, params }) {
     return {
-      classDetail: await store.dispatch('getClassTeacherDetail', params.homeId)
+      classDetail: await store.dispatch('getClassStudentDetail', params.homeId)
     }
   },
   data: () => {
@@ -76,7 +76,7 @@ export default {
   font-family: 'Nunito Sans';
 }
 h1 {
-  font-size: 36px;
+  font-size: 50px;
   font-weight: bold;
   margin-bottom: 30px;
   text-align: center;
@@ -107,6 +107,13 @@ h1 {
 @media screen and (max-width: 600px) {
   .imgResize {
     width: 90%;
+  }
+  h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: rgb(114, 114, 114);
   }
 }
 </style>

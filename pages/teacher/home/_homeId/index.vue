@@ -25,6 +25,7 @@
                 <p class="section__text">
                   Youtube Link: <a class="section__link">{{ classDetail.youtubeLink }}</a>
                 </p>
+                <div>{{ classDetail.studentsId[0].name }}</div>
               </b-card>
             </b-col>
             <b-col
@@ -43,16 +44,41 @@
     </section>
     <section id="table" class="mt-5">
       <b-container>
-        <h2>Members</h2>
+        <h2>Members ({{ classDetail.studentsId.length }})</h2>
+        <!-- <table>
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody v-for="item in classDetail.studentsId" :key="item._id">
+            <tr>
+              <td>{{ item.name }}</td>
+              <td>{{ item.email }}</td>
+            </tr>
+          </tbody>
+        </table> -->
         <b-table
           responsive
           striped
           hover
           show-empty
-          :items="filteredCompanies"
+          :items="items"
           :fields="fields"
           :busy="isLoading"
         />
+        <!-- <template v-slot:cell(name)="{ item: { studentsId } }">
+          <span>{{ studentsId.name }}</span>
+        </template>
+        <template v-slot:cell(email)="{ item: { studentsId } }">
+          <span>{{ studentsId.email }}</span>
+        </template>
+        <template v-slot:cell(action)>
+          <b-link class="ml-2">
+            Delete
+          </b-link>
+        </template> -->
         <base-button @click="handleCreateClass">
           Coba
         </base-button>
@@ -77,6 +103,9 @@ export default {
         { key: 'name', label: 'Name' },
         { key: 'email', label: 'Email' },
         { key: 'action', label: 'Action' }
+      ],
+      items: [
+        { name: 'kuku', email: 'jjj', action: 'Macdonald' }
       ]
     }
   },
@@ -89,6 +118,12 @@ export default {
     handleCreateClass () {
       console.log(this.classDetail)
     }
+    // cobain () {
+    //   let i
+    //   for (i = 0; i < this.classDetail.studentsId.length; i++) {
+    //     classDetail.studentsId
+    //   }
+    // }
   }
 }
 </script>

@@ -90,5 +90,11 @@ export const actions = {
   },
   checkClass ({ dispatch }, payload) {
     return dispatch('createItem', ['student', payload])
+  },
+  getClassStudentDetail ({ dispatch }, classId) {
+    return dispatch('getItems', [`student/class/${classId}`])
+  },
+  getClassStudentById ({ dispatch }, userId) {
+    return dispatch('getItems', [`student/${userId}`])
   }
 }

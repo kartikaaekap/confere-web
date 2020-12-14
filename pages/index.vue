@@ -90,7 +90,9 @@ export default {
         this.$axios.setToken(user.accessToken)
         // await this.$store.dispatch('login', { email, password })
         this.isLoading = false
-        if (user.roles === 'student') {
+        if (user.message) {
+          console.log(user.message)
+        } else if (user.roles === 'student') {
           this.$router.push('/dashboard')
         } else {
           this.$router.push('/teacher')

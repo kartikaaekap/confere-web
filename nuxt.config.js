@@ -34,7 +34,8 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    '~/plugins/bootstrap-icons'
+    '~/plugins/bootstrap-icons',
+    { src: '~/plugins/vuex-persist', ssr: false }
   ],
   components: true,
   /*

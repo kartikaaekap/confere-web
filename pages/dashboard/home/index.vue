@@ -61,7 +61,7 @@
             md="4"
             class="mt-3 mt-sm-4"
           >
-            <b-card class="section__list overflow-hidden" @click="showPopUp(row)">
+            <b-card class="section__list overflow-hidden" @click="handleCheckCondition (item._id)">
               <b-row no-gutters>
                 <b-col md="6" class="d-flex flex-column justify-content-center">
                   <b-card-img src="https://picsum.photos/400/400/?image=20" alt="Image" class="rounded-0" />
@@ -72,16 +72,16 @@
                       {{ item.name }}
                     </div>
                     <b-card-text class="section__subtitleCard pt-4">
-                      Dosen :
+                      Dosen : {{ item.teacherId.name }}
                     </b-card-text>
                   </b-card-body>
                 </b-col>
               </b-row>
-              <div class="text-right">
+              <!-- <div class="text-right">
                 <base-button @click="coba">
                   Join Class
                 </base-button>
-              </div>
+              </div> -->
             </b-card>
           </b-col>
         </b-row>
@@ -107,6 +107,10 @@
 export default {
   layout: 'dashboard',
   async asyncData ({ store }) {
+    // await store.restored
+    // console.log(store.state)
+    // const token = store.state.user.accessToken
+    // $axios.setToken(token)
     return {
       studentClass: await store.dispatch('getAllClass')
     }
@@ -116,6 +120,7 @@ export default {
       filter: '',
       isLoading: false,
       isPopUp: false,
+      isClassId: '',
       form: {
         key: ''
       }
@@ -141,21 +146,38 @@ export default {
     }
   },
   methods: {
-    coba () {
-      console.log(this.$store.state.user)
-      console.log(this.studentClass[10].teacherId.name)
-    },
-    handleJoinClass () {
+    // coba () {
+    //   console.log(this.$store.state.user)
+    //   console.log(this.studentClass[10].teacherId.name)
+    // },
+    handleJoinClass (_id) {
       const { key } = this.form
       const userId = this.$store.state.user.id
+      const classId = this.isClassId
       this.isLoading = true
       this.$store
-        .dispatch('joinClass', [userId, { key }])
-        .then(() => this.handleClassDetail.then(() => (this.isLoading = false)))
+        .dispatch('joinClass', [userId, { key, classId }])
+        .then(() => this.handleClassDetail(classId).then(() => (this.isLoading = false)))
         .catch(() => (this.isLoading = false))
     },
     showPopUp () {
       this.isPopUp = true
+    },
+    async handleCheckCondition (_id) {
+      const userId = this.$store.state.user.id
+      const classId = _id
+      this.isLoading = true
+      try {
+        const isJoinClass = await this.$store.dispatch('checkClass', { userId, classId })
+        if (isJoinClass.enrolled === false) {
+          this.showPopUp()
+          this.isClassId = classId
+        } else {
+          this.handleClassDetail(_id)
+        }
+      } catch (error) {
+        this.isLoading = false
+      }
     },
     handleClassDetail (_id) {
       this.$router.push(`/dashboard/home/${_id}`)
