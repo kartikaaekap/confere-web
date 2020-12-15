@@ -35,7 +35,8 @@ export default {
   */
   plugins: [
     '~/plugins/bootstrap-icons',
-    { src: '~/plugins/vuex-persist', ssr: false }
+    { src: '~/plugins/vuex-persist', ssr: false },
+    { src: '~/plugins/vue-sweet-alert', ssr: false }
   ],
   components: true,
   /*

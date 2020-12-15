@@ -43,6 +43,9 @@
     </section>
     <section id="tableMember" class="mt-5">
       <b-container>
+        <base-button @click="handleCreateClass">
+          coba
+        </base-button>
         <h3>Members ({{ classDetail.studentsId.length }})</h3>
         <div class="mt-3" style="overflow-x:auto;">
           <table id="table">
@@ -126,12 +129,13 @@ export default {
   methods: {
     handleCreateClass () {
       console.log(this.classDetail)
+      console.log(this.handleRefreshList)
     },
     handleDeleteClass () {
       const userId = this.form._id
       const classId = this.classDetail._id
       this.$store
-        .dispatch('deleteStudentFromClass', [{ userId, classId }])
+        .dispatch('deleteStudentFromClass', { classId, userId })
         .then(() => this.handleRefreshList().then(() => (this.isLoading = false)))
         .catch(() => (this.isLoading = false))
     },
@@ -139,8 +143,8 @@ export default {
       this.isModalDelete = true
       this.form = { ...this.form, _id, name }
     },
-    async handleRefreshList (params) {
-      this.classDetail = await this.$store.dispatch('getClassTeacherDetail', params.homeId)
+    async handleRefreshList () {
+      this.classDetail = await this.$store.dispatch('getClassTeacherDetail', this.$route.params.homeId)
     }
   }
 }

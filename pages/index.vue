@@ -90,14 +90,17 @@ export default {
         this.$axios.setToken(user.accessToken)
         // await this.$store.dispatch('login', { email, password })
         this.isLoading = false
-        if (user.message) {
-          console.log(user.message)
-        } else if (user.roles === 'student') {
+        if (user.roles === 'student') {
           this.$router.push('/dashboard')
         } else {
           this.$router.push('/teacher')
         }
       } catch (error) {
+        this.$swal({
+          title: 'Wrong Email or Password',
+          icon: 'warning',
+          showCloseButton: true
+        })
         this.isLoading = false
       }
     }

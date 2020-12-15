@@ -141,15 +141,33 @@ export default {
     }
   },
   methods: {
-    handleJoinClass (_id) {
+    // handleJoinClass (_id) {
+    //   const { key } = this.form
+    //   const userId = this.$store.state.user.id
+    //   const classId = this.isClassId
+    //   this.isLoading = true
+    //   this.$store
+    //     .dispatch('joinClass', [userId, { key, classId }])
+    //     .then(() => this.handleClassDetail(classId).then(() => (this.isLoading = false)))
+    //     .catch(() => (this.isLoading = false))
+    // },
+    async handleJoinClass (_id) {
       const { key } = this.form
       const userId = this.$store.state.user.id
       const classId = this.isClassId
       this.isLoading = true
-      this.$store
-        .dispatch('joinClass', [userId, { key, classId }])
-        .then(() => this.handleClassDetail(classId).then(() => (this.isLoading = false)))
-        .catch(() => (this.isLoading = false))
+      try {
+        await this.$store.dispatch('joinClass', [userId, { key, classId }])
+        this.handleClassDetail(classId)
+        this.isLoading = false
+      } catch (error) {
+        this.$swal({
+          title: 'Wrong Enrollment Key!',
+          icon: 'warning',
+          showCloseButton: true
+        })
+        this.isLoading = false
+      }
     },
     showPopUp () {
       this.isPopUp = true

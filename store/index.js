@@ -1,3 +1,8 @@
+// import Vue from 'vue'
+// import VueSweetalert2 from 'vue-sweetalert2'
+
+// Vue.use(VueSweetalert2)
+
 export const state = () => {
   return {
     auth: null,
@@ -33,11 +38,18 @@ export const actions = {
     // if (token) {
     //   setHeader
     // }
+    // return new Promise((resolve, reject) => {
+    //   this.$axios[method](url, data)
+    //     .then(({ data: response }) => resolve(response.data || response))
+    //     .catch(({ response: { status: statusCode, data: { message } } }) => {
+    //       this.$toast.error(message)
+    //       reject(new Error({ statusCode, message }))
+    //     })
+    // })
     return new Promise((resolve, reject) => {
       this.$axios[method](url, data)
         .then(({ data: response }) => resolve(response.data || response))
         .catch(({ response: { status: statusCode, data: { message } } }) => {
-          this.$toast.error(message)
           reject(new Error({ statusCode, message }))
         })
     })
@@ -97,7 +109,7 @@ export const actions = {
   getClassStudentById ({ dispatch }, userId) {
     return dispatch('getItems', [`student/${userId}`])
   },
-  deleteStudentFromClass ({ dispatch }, payload) {
-    return dispatch('deleteItem', ['teacher/class/member', payload])
+  deleteStudentFromClass ({ dispatch }, { classId, userId }) {
+    return dispatch('deleteItem', `teacher/${classId}/${userId}`)
   }
 }
