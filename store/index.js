@@ -1,8 +1,3 @@
-// import Vue from 'vue'
-// import VueSweetalert2 from 'vue-sweetalert2'
-
-// Vue.use(VueSweetalert2)
-
 export const state = () => {
   return {
     auth: null,
@@ -35,17 +30,6 @@ export const mutations = {
 }
 export const actions = {
   useAPI (context, { method, url, data, token }) {
-    // if (token) {
-    //   setHeader
-    // }
-    // return new Promise((resolve, reject) => {
-    //   this.$axios[method](url, data)
-    //     .then(({ data: response }) => resolve(response.data || response))
-    //     .catch(({ response: { status: statusCode, data: { message } } }) => {
-    //       this.$toast.error(message)
-    //       reject(new Error({ statusCode, message }))
-    //     })
-    // })
     return new Promise((resolve, reject) => {
       this.$axios[method](url, data)
         .then(({ data: response }) => resolve(response.data || response))

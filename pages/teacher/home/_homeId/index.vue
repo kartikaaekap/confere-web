@@ -43,9 +43,6 @@
     </section>
     <section id="tableMember" class="mt-5">
       <b-container>
-        <base-button @click="handleCreateClass">
-          coba
-        </base-button>
         <h3>Members ({{ classDetail.studentsId.length }})</h3>
         <div class="mt-3" style="overflow-x:auto;">
           <table id="table">
