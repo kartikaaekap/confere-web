@@ -71,7 +71,7 @@ export const actions = {
     return dispatch('getItems', [`teacher/class/${classId}`])
   },
   deleteClassTeacher ({ dispatch }, payload) {
-    return dispatch('deleteItem', `teacher/${payload}`)
+    return dispatch('deleteItem', `teacherclass/${payload}`)
   },
   updateClassTeacher ({ dispatch }, [classId, data]) {
     return dispatch('updateItem', [`teacher/${classId}`, data])
