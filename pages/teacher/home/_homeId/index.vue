@@ -20,10 +20,10 @@
                   Schedule: <span class="section__subtext">{{ classDetail.schedule }}</span>
                 </p>
                 <p class="section__text">
-                  Zoom Link: <a class="section__link">{{ classDetail.zoomLink }}</a>
+                  Zoom Link: <a :href="linkClassZoom" class="section__link" target="_blank">{{ classDetail.zoomLink }}</a>
                 </p>
                 <p class="section__text">
-                  Youtube Link: <a class="section__link">{{ classDetail.youtubeLink }}</a>
+                  Youtube Link: <a :href="linkClassYoutube" class="section__link" target="_blank">{{ classDetail.youtubeLink }}</a>
                 </p>
               </b-card>
             </b-col>
@@ -65,7 +65,7 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.email }}</td>
                 <td>
-                  <b-link class="ml-2" @click="showModalDelete">
+                  <b-link class="ml-2" @click="showModalDelete (item._id, item.name)">
                     Delete
                   </b-link>
                 </td>
@@ -105,16 +105,22 @@ export default {
         { key: 'name', label: 'Name' },
         { key: 'email', label: 'Email' },
         { key: 'action', label: 'Action' }
-      ]
-      // form: {
-      //   _id: '',
-      //   name: ''
-      // }
+      ],
+      form: {
+        _id: '',
+        name: ''
+      }
     }
   },
   computed: {
     areAllInputsEmpty () {
       return Object.values(this.form).some(value => !value)
+    },
+    linkClassZoom () {
+      return this.classDetail.zoomLink
+    },
+    linkClassYoutube () {
+      return this.classDetail.youtubeLink
     }
   },
   methods: {
@@ -122,14 +128,14 @@ export default {
       console.log(this.classDetail)
     },
     handleDeleteClass () {
-      const userId = this.$store.state.user.id
-      const classId = this.form._id
+      const userId = this.form._id
+      const classId = this.classDetail._id
       this.$store
         .dispatch('deleteStudentFromClass', [{ userId, classId }])
         .then(() => this.handleRefreshList().then(() => (this.isLoading = false)))
         .catch(() => (this.isLoading = false))
     },
-    showModalDelete ({ item: { _id, name } }) {
+    showModalDelete (_id, name) {
       this.isModalDelete = true
       this.form = { ...this.form, _id, name }
     },

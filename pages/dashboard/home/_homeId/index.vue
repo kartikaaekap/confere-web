@@ -20,10 +20,12 @@
                   Schedule: <span class="section__subtext">{{ classDetail.schedule }}</span>
                 </p>
                 <p class="section__text">
-                  Zoom Link: <a class="section__link">{{ classDetail.zoomLink }}</a>
+                  Zoom Link: <a :href="linkClassZoom" class="section__link" target="_blank">{{ classDetail.zoomLink }}</a>
                 </p>
                 <p class="section__text">
-                  Youtube Link: <a class="section__link">{{ classDetail.youtubeLink }}</a>
+                  Youtube Link: <a :href="linkClassYoutube" class="section__link" target="_blank">
+                    {{ classDetail.youtubeLink }}
+                  </a>
                 </p>
               </b-card>
             </b-col>
@@ -61,6 +63,12 @@ export default {
   computed: {
     areAllInputsEmpty () {
       return Object.values(this.form).some(value => !value)
+    },
+    linkClassZoom () {
+      return this.classDetail.zoomLink
+    },
+    linkClassYoutube () {
+      return this.classDetail.youtubeLink
     }
   },
   methods: {

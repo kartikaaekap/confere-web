@@ -32,7 +32,7 @@
         </b-container>
       </b-container>
     </section>
-    <section id="filter" class="mt-5">
+    <section id="filterClass" class="mt-5">
       <b-container>
         <b-row>
           <b-col cols="5" />
@@ -53,15 +53,14 @@
       <b-container>
         <b-row>
           <b-col
-            v-for="item in studentClass"
-            :key="item._id"
-            :items="filteredClass"
+            v-for="studentClass in filteredClass"
+            :key="studentClass._id"
             :busy="isLoading"
             cols="12"
             md="4"
             class="mt-3 mt-sm-4"
           >
-            <b-card class="section__list overflow-hidden" @click="handleCheckCondition (item._id)">
+            <b-card class="section__list overflow-hidden" @click="handleCheckCondition (studentClass._id)">
               <b-row no-gutters>
                 <b-col md="6" class="d-flex flex-column justify-content-center">
                   <b-card-img src="https://picsum.photos/400/400/?image=20" alt="Image" class="rounded-0" />
@@ -69,10 +68,10 @@
                 <b-col md="6">
                   <b-card-body>
                     <div class="section__titleCard">
-                      {{ item.name }}
+                      {{ studentClass.name }}
                     </div>
                     <b-card-text class="section__subtitleCard pt-4">
-                      Dosen : {{ item.teacherId.name }}
+                      Dosen : {{ studentClass.teacherId.name }}
                     </b-card-text>
                   </b-card-body>
                 </b-col>
@@ -127,18 +126,14 @@ export default {
     }
   },
   computed: {
-    // eslint-disable-next-line vue/return-in-computed-property
     filteredClass () {
-      let item
-      for (item = 0; item < this.studentClass.size; item++) {
-        return this.item.filter(({ name }) => {
-          return name
-            .toLowerCase()
-            .split(' ')
-            .join()
-            .includes(this.filter.trim().toLowerCase())
-        })
-      }
+      return this.studentClass.filter(({ name }) => {
+        return name
+          .toLowerCase()
+          .split(' ')
+          .join()
+          .includes(this.filter.trim().toLowerCase())
+      })
     },
     noResultMessage () {
       const filter = this.filter.trim().toLowerCase()
