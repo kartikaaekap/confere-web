@@ -75,11 +75,86 @@
         </b-collapse>
       </b-container>
     </b-navbar>
+    <aside class="sidebar" :class="{ 'sidebar--open': isSidebarOpen }">
+      <b-container class="px-0 px-sm-3">
+        <b-col cols="4" class="d-block d-md-none">
+          <dropdown-menu v-model="isDropdownOpenMenu" left hover>
+            <base-button
+              variant="secondary"
+              icon="list"
+              size="small"
+              class="ml-3"
+              icon-only
+            />
+            <div slot="dropdown">
+              <template>
+                <base-button v-if="this.$store.state.user.roles === 'student'" variant="text" to="/dashboard/home">
+                  Home
+                </base-button>
+                <base-button v-else variant="text" to="/teacher/home">
+                  Home
+                </base-button>
+                <base-button v-if="this.$store.state.user.roles === 'student'" variant="text" to="/dashboard/classlist">
+                  List Class
+                </base-button>
+              </template>
+            </div>
+          </dropdown-menu>
+        </b-col>
+        <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
+          <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
+            <b-img src="~/assets/img/logo-confere.png" fluid />
+          </b-navbar-brand>
+        </b-col>
+
+        <b-navbar-toggle target="nav-collapse" />
+
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+            <template>
+              <base-button v-if="this.$store.state.user.roles === 'student'" variant="text" is-long class="d-none d-md-flex mr-3" to="/dashboard/home">
+                Home
+              </base-button>
+              <base-button v-else variant="text" is-long class="d-none d-md-flex mr-3" to="/teacher/home">
+                Home
+              </base-button>
+              <base-button v-if="this.$store.state.user.roles === 'student'" variant="text" is-long class="d-none d-md-flex mr-3" to="/dashboard/classlist">
+                List Class
+              </base-button>
+            </template>
+            <dropdown-menu v-model="isDropdownOpen" right hover>
+              <base-button
+                id="user"
+                variant="secondary"
+                icon="person"
+                size="small"
+                class="ml-3"
+                icon-only
+                is-circle
+              />
+              <div slot="dropdown">
+                <template>
+                  <p class="profil__name pl-2 py-2 mb-0">
+                    {{ this.$store.state.user.name }}
+                  </p>
+                  <p class="profil__description pl-2 pb-2 mt-0">
+                    {{ this.$store.state.user.email }}
+                  </p>
+                </template>
+                <b-link class="dropdown__item p-2" to="/signout">
+                  Sign out
+                </b-link>
+              </div>
+            </dropdown-menu>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-container>
+    </aside>
   </b-container>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import DropdownMenu from '@innologica/vue-dropdown-menu'
 
 export default {
@@ -97,6 +172,9 @@ export default {
       isDropdownOpenMenu: false,
       openModal: ''
     }
+  },
+  computed: {
+    ...mapState(['isSidebarOpen'])
   },
   mounted () {
     window.addEventListener('scroll', this.updateScroll)
